@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaft.org">
+<html lang="PT-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Gerenciamento de garagens</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <div class="container">
+      <div class="logo">
+        <h2> 🚗 Sistema de garagens</h2>
+      </div>
+      <ul class="nav-links">
+        <li><a href="/templates/index.html" class="active">Inicio</a></li>
+        <li><a href="/templates/clientes.html">Clientes</a></li>
+        <li><a href="/templates/garagens.html">Garagens</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <div class="hero">
+      <h1>Bem-vindo ao sistema de Gerenciamento</h1>
+      <p>Gerencie seus clientes e suas vagas de forma simples e eficiente</p>
+    </div>
+
+    <div class="cards">
+
+      <div class="card">
+        <div class="card-icon">👥</div>
+        <h3>Clientes</h3>
+        <p>Gerencie o cadastro de clientes, visualize e edite informações</p>
+        <a href="/cliente" class="btn btn-primary">Acessar Clientes</a>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🏢</div>
+        <h3>Controle garagens, pagamentos mensais e statis de ocupação</h3>
+        <a href="/garagens" class="btn btn-primary">Acessar Garagens</a>
+      </div>
+    </div>
+
+    <div class="features">
+
+      <h2>Funcionalidade</h2>
+
+      <div class="feature-list">
+        <div class="feature-item">
+          <spam class="feature-icon">✅</spam>
+          <div>
+            <h4>Cadastro Completo</h4>
+            <p>Registre clientes e garagens com todas as informações necessárias</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <span class="feature-icon">🔍</span>
+          <div>
+            <h4>Busca Avançada</h4>
+            <p>Pesquise clientes e garagens com todas as informações necessárias</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <span class="feature-icon">📊</span>
+          <div>
+            <h4>Relatótios</h4>
+            <p>Visualize informações detalhadas e histórico de pagamentos</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <span class="feature-icon">⚡</span>
+          <h4>Rápido e eficiente</h4>
+          <P>Interface intuituva para operações rápidas do dia a dia</P>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer>
+    <p>&copy; 2025 Sistema de Gerenciamento de Garagens. Todos os direitos reservados.</p>
+  </footer>
+  
+  <script th:src="@{/js/script.js}"></script>
+</body>
+</html>

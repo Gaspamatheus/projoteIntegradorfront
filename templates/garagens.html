@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Garagens</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <h2>🚗 Sistema de Garagens</h2>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/templates/index.html">Início</a></li>
+                <li><a href="/templates/clientes.html">Clientes</a></li>
+                <li><a href="/templates/garagens.html" class="active">Garagens</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>🏢 Gerenciamento de Garagens</h1>
+            <button class="btn btn-primary" onclick="openModal('garagemModal')">
+                ➕ Nova Garagem
+            </button>
+        </div>
+
+        <!-- Filtros de Busca -->
+        <div class="search-section">
+            <div class="filter-group">
+                <div class="filter-item">
+                    <label for="filterAno">Ano:</label>
+                    <input type="number" id="filterAno" placeholder="Ex: 2024" min="1900" max="2155">
+                </div>
+                <div class="filter-item">
+                    <label for="filterMes">Mês:</label>
+                    <select id="filterMes">
+                        <option value="">Todos</option>
+                        <option value="1">Janeiro</option>
+                        <option value="2">Fevereiro</option>
+                        <option value="3">Março</option>
+                        <option value="4">Abril</option>
+                        <option value="5">Maio</option>
+                        <option value="6">Junho</option>
+                        <option value="7">Julho</option>
+                        <option value="8">Agosto</option>
+                        <option value="9">Setembro</option>
+                        <option value="10">Outubro</option>
+                        <option value="11">Novembro</option>
+                        <option value="12">Dezembro</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <label for="filterCliente">Cliente:</label>
+                    <select id="filterCliente">
+                        <option value="">Todos</option>
+                    </select>
+                </div>
+                <div class="filter-buttons">
+                    <button class="btn btn-secondary" onclick="filtrarGaragens()">🔍 Filtrar</button>
+                    <button class="btn btn-secondary" onclick="listarTodasGaragens()">📋 Todos</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mensagens -->
+        <div id="message" class="message" style="display: none;"></div>
+
+        <!-- Tabela de Garagens -->
+        <div class="table-container">
+            <table id="garagensTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Cliente</th>
+                        <th>Ano</th>
+                        <th>Mês</th>
+                        <th>Valor</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="garagensTableBody">
+                    <tr>
+                        <td colspan="7" class="loading">Carregando...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal de Garagem -->
+    <div id="garagemModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Nova Garagem</h2>
+                <span class="close" onclick="closeModal('garagemModal')">&times;</span>
+            </div>
+            <form id="garagemForm" onsubmit="salvarGaragem(event)">
+                <input type="hidden" id="garagemId">
+                
+                <div class="form-group">
+                    <label for="clienteId">Cliente *</label>
+                    <select id="clienteId" required>
+                        <option value="">Selecione um cliente</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="ano">Ano *</label>
+                        <input type="number" id="ano" required min="1900" max="2155">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mesPago">Mês Pago *</label>
+                        <select id="mesPago" required>
+                            <option value="">Selecione</option>
+                            <option value="1">Janeiro</option>
+                            <option value="2">Fevereiro</option>
+                            <option value="3">Março</option>
+                            <option value="4">Abril</option>
+                            <option value="5">Maio</option>
+                            <option value="6">Junho</option>
+                            <option value="7">Julho</option>
+                            <option value="8">Agosto</option>
+                            <option value="9">Setembro</option>
+                            <option value="10">Outubro</option>
+                            <option value="11">Novembro</option>
+                            <option value="12">Dezembro</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="valorGaragem">Valor da Garagem (R$) *</label>
+                    <input type="number" id="valorGaragem" step="0.01" min="0.01" required>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="garagemFechada">
+                        Garagem Fechada
+                    </label>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('garagemModal')">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        💾 Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação de Exclusão -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2>Confirmar Exclusão</h2>
+                <span class="close" onclick="closeModal('deleteModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Tem certeza que deseja excluir esta garagem?</p>
+                <p class="warning">⚠️ Esta ação não pode ser desfeita!</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('deleteModal')">
+                    Cancelar
+                </button>
+                <button class="btn btn-danger" onclick="confirmarExclusao()">
+                    🗑️ Excluir
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Sistema de Gerenciamento de Garagens</p>
+    </footer>
+
+    <script th:src="@{/js/script.js}"></script>
+    <script th:src="@{/js/garagens.js}"></script>
+</body>
+</html>
